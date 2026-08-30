@@ -5,6 +5,13 @@
 [functions]
   node_bundler = "esbuild"
 
+# Auto-installs the dependencies listed in netlify/functions/package.json
+# (bcryptjs, jsonwebtoken, @netlify/blobs) before the functions are bundled.
+# Without this, Netlify does not install a Function's own package.json deps
+# by default.
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
+
 # Server-side gate: before /index.html is ever served, check for a valid,
 # approved session cookie. No valid session -> redirect to the public
 # login page. This runs on Netlify's edge, before any HTML/JS reaches
