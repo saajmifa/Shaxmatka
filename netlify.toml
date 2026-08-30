@@ -1,0 +1,18 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Server-side gate: before /index.html is ever served, check for a valid,
+# approved session cookie. No valid session -> redirect to the public
+# login page. This runs on Netlify's edge, before any HTML/JS reaches
+# the browser, so it can't be bypassed by editing client-side code.
+[[edge_functions]]
+  path = "/"
+  function = "gate"
+
+[[edge_functions]]
+  path = "/index.html"
+  function = "gate"
